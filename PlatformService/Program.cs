@@ -10,6 +10,9 @@ builder.Services.AddOpenApi();
 // Add DbContext using InMemory database
 builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("InMem"));
 
+// Add repository to the container
+builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
