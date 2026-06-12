@@ -1,0 +1,31 @@
+## [Visual Studio Code]
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+## [Build Artifacts - Do not commit]
+bin/
+obj/
+
+## [Environment Configurations & Secrets]
+appsettings.Development.json
+appsettings.Production.json
+# Note: Uncomment the line below if you want to commit a template config file:
+# !appsettings.Development.json
+
+## [User Secrets - Local Connection Strings / Credentials]
+secrets.json
+.microsoft.dotnet.secretmanager/
+
+## [JetBrains Rider IDE]
+.idea/
+
+## [Operating System Files]
+.DS_Store
+Thumbs.db
+
+## [Docker Local Builds]
+.dockerignore
