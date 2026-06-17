@@ -42,6 +42,14 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
+app.Lifetime.ApplicationStarted.Register(() =>
+{
+    foreach (var url in app.Urls)
+    {
+        Console.WriteLine($"Listening on {url}");
+    }
+});
+
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
