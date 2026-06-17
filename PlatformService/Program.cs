@@ -15,6 +15,8 @@ builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 
 var app = builder.Build();
 
+PrepDb.PrepPopulation(app, app.Environment.IsProduction());
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
