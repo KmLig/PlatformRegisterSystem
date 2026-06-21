@@ -48,7 +48,8 @@ app.MapGet("/platforms",  (IPlatformRepo repo) =>
 {
     var platforms =  repo.GetAllPlatforms();
     return Results.Ok(platforms);
-});
+})
+.WithName("GetPlatforms");
 
 app.Lifetime.ApplicationStarted.Register(() =>
 {
