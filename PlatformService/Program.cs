@@ -44,6 +44,12 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
+app.MapGet("/platforms",  (IPlatformRepo repo) =>
+{
+    var platforms =  repo.GetAllPlatforms();
+    return Results.Ok(platforms);
+});
+
 app.Lifetime.ApplicationStarted.Register(() =>
 {
     foreach (var url in app.Urls)
