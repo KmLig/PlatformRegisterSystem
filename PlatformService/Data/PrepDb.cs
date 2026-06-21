@@ -12,8 +12,7 @@ namespace PlatformService.Data
                 if (context != null) {
                     SeedData(context);
                 }                
-            }
-            
+            }            
         }
 
         private static void SeedData(AppDbContext context)
