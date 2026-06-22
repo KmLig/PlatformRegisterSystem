@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PlatformService.Data;
 using PlatformService.Mappers;
+using PlatformService.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,10 +49,10 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
-app.MapGet("/platforms",  (IPlatformRepo repo) =>
+app.MapGet("/platforms",  (IPlatformRepo repo, PlatformMappers mapper) =>
 {
-    var platforms =  repo.GetAllPlatforms();
-    return Results.Ok(platforms);
+   IEnumerable<Platform> platforms = repo.GetAllPlatforms();
+   return Results.Ok(platforms.Select(mapper.MapToReadDto));
 })
 .WithName("GetPlatforms");
 
