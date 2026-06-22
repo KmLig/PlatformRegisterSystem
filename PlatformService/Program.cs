@@ -37,6 +37,13 @@ app.MapGet("/platforms",  (IPlatformRepo repo, PlatformMappers mapper) =>
 })
 .WithName("GetPlatforms");
 
+app.MapGet("/platforms/{id}",  (IPlatformRepo repo, PlatformMappers mapper, int id) =>
+{
+    Platform? platform = repo.GetPlatformById(id);
+    return platform != null ? Results.Ok(mapper.MapToReadDto(platform)) : Results.NotFound();
+})
+.WithName("GetPlatformById");
+
 app.Lifetime.ApplicationStarted.Register(() =>
 {
     foreach (var url in app.Urls)
