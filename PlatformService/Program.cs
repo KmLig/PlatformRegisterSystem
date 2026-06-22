@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PlatformService.Data;
+using PlatformService.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,9 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDataba
 
 // Add repository to the container
 builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
+
+// Add Mapperly to the container
+builder.Services.AddSingleton<PlatformMappers>();
 
 var app = builder.Build();
 
