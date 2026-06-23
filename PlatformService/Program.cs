@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PlatformService.Data;
+using PlatformService.Dtos;
 using PlatformService.Mappers;
 using PlatformService.Models;
 
@@ -43,6 +44,14 @@ app.MapGet("/platforms/{id}",  (IPlatformRepo repo, PlatformMappers mapper, int 
     return platform != null ? Results.Ok(mapper.MapToReadDto(platform)) : Results.NotFound();
 })
 .WithName("GetPlatformById");
+
+app.MapPost("/platforms", (IPlatformRepo repo, PlatformMappers mapper, PlatformCreateDto platformCreateDto) => 
+{
+    Platform platform = mapper.MapToModel(platformCreateDto);
+    repo.CreatePlatform(platform);
+    repo.SaveChanges();
+    return Results.Created($"/platforms/{platform.Id}", mapper.MapToReadDto(platform));
+}).WithName("CreatePlatform");
 
 app.Lifetime.ApplicationStarted.Register(() =>
 {
