@@ -19,6 +19,9 @@ builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 // Add Mapperly to the container
 builder.Services.AddSingleton<PlatformMappers>();
 
+// Add validation to the container
+builder.Services.AddValidation();
+
 var app = builder.Build();
 
 PrepDb.PrepPopulation(app, app.Environment.IsProduction());
