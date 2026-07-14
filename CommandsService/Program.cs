@@ -14,6 +14,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.MapGet("/commands", () =>
+{
+    return Results.Ok("Hello World");
+})
+.WithName("GetCommands");
+
 
 
 app.Run();
