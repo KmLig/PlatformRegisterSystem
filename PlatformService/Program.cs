@@ -1,13 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using PlatformService.Data;
-using PlatformService.Dtos;
 using PlatformService.Mappers;
-using PlatformService.Models;
+using PlatformService.SyncDataServices.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 // Add DbContext using InMemory database
@@ -19,8 +18,8 @@ builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 // Add Mapperly to the container
 builder.Services.AddSingleton<PlatformMappers>();
 
-// Add validation to the container
-builder.Services.AddValidation();
+// Add HttpClient to the container
+builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
 
 var app = builder.Build();
 
@@ -33,28 +32,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.MapGet("/platforms",  (IPlatformRepo repo, PlatformMappers mapper) =>
-{
-   IEnumerable<Platform> platforms = repo.GetAllPlatforms();
-   return Results.Ok(platforms.Select(mapper.MapToReadDto));
-})
-.WithName("GetPlatforms");
-
-app.MapGet("/platforms/{id}",  (IPlatformRepo repo, PlatformMappers mapper, int id) =>
-{
-    Platform? platform = repo.GetPlatformById(id);
-    return platform != null ? Results.Ok(mapper.MapToReadDto(platform)) : Results.NotFound();
-})
-.WithName("GetPlatformById");
-
-app.MapPost("/platforms", (IPlatformRepo repo, PlatformMappers mapper, PlatformCreateDto platformCreateDto) => 
-{
-    Platform platform = mapper.MapToModel(platformCreateDto);
-    repo.CreatePlatform(platform);
-    repo.SaveChanges();
-    return Results.Created($"/platforms/{platform.Id}", mapper.MapToReadDto(platform));
-}).WithName("CreatePlatform");
+app.MapControllers();
 
 app.Lifetime.ApplicationStarted.Register(() =>
 {
