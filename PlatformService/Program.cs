@@ -21,6 +21,8 @@ builder.Services.AddSingleton<PlatformMappers>();
 // Add HttpClient to the container
 builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
 
+Console.WriteLine($"--> CommandService Endpoint {builder.Configuration["CommandService"]}");
+
 var app = builder.Build();
 
 PrepDb.PrepPopulation(app, app.Environment.IsProduction());
